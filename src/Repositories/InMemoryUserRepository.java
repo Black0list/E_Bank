@@ -3,19 +3,40 @@ package Repositories;
 import Entities.User;
 import RepositoriesIntf.UserRepository;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryUserRepository implements UserRepository {
-    HashSet<User> users = new HashSet<User>();
+    List<User> users = new ArrayList<User>();
 
-    public void save(User user)
+    public User save(User user)
     {
-        users.add(user);
+        User userSearched = users.stream()
+                .filter(userf -> Objects.equals(userf.getFullName(), user.getFullName()))
+                .findFirst()
+                .orElse(null);
+
+        if(users.remove(userSearched)){
+            users.add(user);
+        } else {
+            users.add(user);
+        }
+
+        return user;
     }
 
-    public HashSet<User> all(){
+    public User findByEmail(String email){
+        try{
+            return users.stream()
+                    .filter(userfound -> Objects.equals(userfound.getEmail(), email))
+                    .findFirst()
+                    .orElse(null);
+        } catch (NoSuchElementException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<User> all(){
         return users;
     }
 }
