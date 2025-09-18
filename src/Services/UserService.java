@@ -39,12 +39,14 @@ public class UserService {
     public User updateEmail(String email){
         User user = this.UserRepo.findByEmail(Main.USER.getEmail());
         user.setEmail(email);
+        System.out.println("Email Updated Successfully");
         return this.UserRepo.save(user);
     }
 
     public User updateAddress(String address){
         User user = this.UserRepo.findByEmail(Main.USER.getEmail());
         user.setAddress(address);
+        System.out.println("Address Updated Successfully");
         return this.UserRepo.save(user);
     }
 
@@ -55,8 +57,15 @@ public class UserService {
 
     public User updatePassword(String password){
         User user = this.UserRepo.findByEmail(Main.USER.getEmail());
-        user.setPassword(password);
-        return this.UserRepo.save(user);
+        if(Validation.checkPassword(password)){
+            user.setPassword(password);
+            System.out.println("Password Updated Successfully");
+            return this.UserRepo.save(user);
+        } else {
+            System.out.println("Password Must be at Least 6 characters");
+            return user;
+        }
+
     }
 
     public List<User> all(){

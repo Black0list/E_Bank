@@ -28,8 +28,18 @@ public class Display {
         Display.clear();
         System.out.println("=========== Bank Menu ===========");
         System.out.println("1. Create Account");
+        System.out.println("2. My Accounts");
+        System.out.println("3. Show Account's Balance");
+        System.out.println("4. Close Account");
         System.out.println("5. Back to Main Menu");
         System.out.println("9. Menu");
+    }
+
+    public static void TypeBankMenu(){
+        Display.clear();
+        System.out.println("1. STANDARD");
+        System.out.println("2. CREDIT");
+        System.out.println("3. SAVINGS");
     }
 
     public static void clear(){

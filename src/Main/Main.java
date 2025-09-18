@@ -28,11 +28,11 @@ public class Main {
 
         while(choice != 10){
             System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
-            if (input.hasNextInt()) {
-                choice = input.nextInt();
-            } else {
+            String line = input.nextLine();
+            try {
+                choice = Integer.parseInt(line); // parse string to int
+            } catch (NumberFormatException e) {
                 System.out.println("That wasn't a number.");
-                input.next();
                 continue;
             }
 
@@ -51,13 +51,13 @@ public class Main {
                     System.out.println("                 Registration                ");
                     System.out.println("=============================================");
                     System.out.print("Fullname : ");
-                    String name = input.next();
+                    String name = input.nextLine();
                     System.out.print("Email : ");
-                    String email = input.next();
+                    String email = input.nextLine();
                     System.out.print("Password : ");
-                    String password = input.next();
+                    String password = input.nextLine();
                     System.out.print("Address : ");
-                    String address = input.next();
+                    String address = input.nextLine();
 
                     userService.register(name,email,password,address);
                     break;
@@ -69,9 +69,9 @@ public class Main {
                     System.out.println("                    Login                    ");
                     System.out.println("=============================================");
                     System.out.print("email : ");
-                    String email = input.next();
+                    String email = input.nextLine();
                     System.out.print("Password : ");
-                    String password = input.next();
+                    String password = input.nextLine();
 
                     USER = userService.login(email,password);
                     if(Objects.isNull(USER)){
@@ -99,11 +99,11 @@ public class Main {
                     Display.profileMenu();
                     do{
                         System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
-                        if (input.hasNextInt()) {
-                            choice = input.nextInt();
-                        } else {
+                        line = input.nextLine();
+                        try {
+                            choice = Integer.parseInt(line); // parse string to int
+                        } catch (NumberFormatException e) {
                             System.out.println("That wasn't a number.");
-                            input.next();
                             continue;
                         }
 
@@ -116,32 +116,26 @@ public class Main {
                             
                             case 2 : {
                                 System.out.print("Enter The New Mail : ");
-                                input.nextLine();
                                 String email = input.nextLine();
                                 USER = userService.updateEmail(email);
-                                System.out.println("Email Updated Successfully");
                                 break;
                             }
 
                             case 3 : {
                                 System.out.print("Enter The New Address : ");
-                                input.nextLine();
                                 String address = input.nextLine();
                                 USER = userService.updateAddress(address);
-                                System.out.println("Address Updated Successfully");
                                 break;
                             }
 
                             case 4 : {
                                 System.out.print("Confirm Password first : ");
-                                input.nextLine();
                                 String password = input.nextLine();
                                 if(userService.checkPassword(password)){
                                     System.out.println("Correct Password !");
                                     System.out.print("Enter the new password : ");
                                     password = input.nextLine();
                                     USER = userService.updatePassword(password);
-                                    System.out.println("Password Updated Successfully");
                                 } else {
                                     System.out.println("Incorrect password, retry !");
                                 }
@@ -172,19 +166,66 @@ public class Main {
                     Display.bankMenu();
                     do{
                     System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
-                    if (input.hasNextInt()) {
-                        choice = input.nextInt();
-                    } else {
-                        System.out.println("That wasn't a number.");
-                        input.next();
-                        continue;
-                    }
+                        line = input.nextLine();
+                        try {
+                            choice = Integer.parseInt(line); // parse string to int
+                        } catch (NumberFormatException e) {
+                            System.out.println("That wasn't a number.");
+                            continue;
+                        }
                         switch (choice){
                             case 1 : {
+                                Display.TypeBankMenu();
+                                System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
+                                line = input.nextLine();
+                                choice = Integer.parseInt(line);
+                                switch (choice){
+                                    case 1 : {
+                                        accountService.create(USER,Account.Type.STANDARD);
+                                        break;
+                                    }
+
+                                    case 2 : {
+                                        accountService.create(USER,Account.Type.CREDIT);
+                                        break;
+                                    }
+
+                                    case 3 : {
+                                        accountService.create(USER,Account.Type.SAVINGS);
+                                        break;
+                                    }
+
+                                    default: {
+                                        System.out.println("Default!");
+                                        accountService.create(USER,Account.Type.STANDARD);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+
+                            case 2 : {
                                 Display.clear();
-                                Account account = accountService.create(USER);
-                                System.out.println("Account Created Successfully");
-                                System.out.println(account);
+                                System.out.println("=============================================");
+                                System.out.println("                    Accounts                 ");
+                                System.out.println("=============================================");
+                                accountService.userAccounts(USER);
+                                break;
+                            }
+
+                            case 3 : {
+                                Display.clear();
+                                System.out.print("What is the accountId : ");
+                                String accountId = input.nextLine();
+                                accountService.showAccount(accountId);
+                                break;
+                            }
+
+                            case 4 : {
+                                Display.clear();
+                                System.out.print("What is the accountId You Want to Close : ");
+                                String accountId = input.nextLine();
+                                accountService.closeAccount(accountId);
                                 break;
                             }
 

@@ -1,25 +1,38 @@
 package Entities;
 
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.*;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.logging.Level;
+
+
 
 public class Account {
+
+    public enum Type {
+        STANDARD,
+        CREDIT,
+        SAVINGS
+    }
+
     private String accountId;
     private User ownerUser;
     private BigDecimal balance;
     private Instant createdAt;
     private boolean active;
+    private Type type;
 
     Random random = new Random();
-    public Account(User user){
-        this.accountId = "BK-"+ random.nextInt(1000) +"-"+random.nextInt(1000);
+    public Account(User user, Type type){
+        this.accountId = "BK-"+ random.nextInt(9000) +"-"+random.nextInt(9000);
         this.ownerUser = user;
-        this.balance = new BigDecimal(0);
+        this.balance = new BigDecimal(10).setScale(2, RoundingMode.HALF_DOWN);
         this.createdAt = Instant.now();
         this.active = true;
+        this.type = type;
     }
 
     public String getAccountId() {
@@ -66,14 +79,22 @@ public class Account {
         this.accountId = accountId;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "accountId='" + accountId + '\'' +
-                ", ownerUser=" + ownerUser.getEmail() +
                 ", balance=" + balance +
                 ", createdAt=" + createdAt +
                 ", active=" + active +
+                ", type=" + type +
                 '}';
     }
 }
