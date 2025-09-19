@@ -10,6 +10,7 @@ import Entities.Account;
 import Entities.User;
 import Repositories.InMemoryAccountRepository;
 import Repositories.InMemoryTransactionRepository;
+import RepositoriesIntf.AccountRepository;
 import RepositoriesIntf.TransactionRepository;
 import Services.AccountService;
 import Services.TransactionService;
@@ -24,8 +25,11 @@ public class Main {
 
         //Services
         UserService userService = new UserService(new InMemoryUserRepository());
-        AccountService accountService = new AccountService(new InMemoryAccountRepository());
-        TransactionService transactService = new TransactionService(new InMemoryTransactionRepository());
+        AccountRepository accountRepo = new InMemoryAccountRepository();
+        AccountService accountService = new AccountService(accountRepo);
+
+        TransactionRepository transactionRepo = new InMemoryTransactionRepository();
+        TransactionService transactService = new TransactionService(transactionRepo, accountRepo);
 
         int choice = 100;
         Scanner input = new Scanner(System.in);

@@ -3,6 +3,7 @@ package Services;
 import Entities.Account;
 import Entities.Transaction;
 import Repositories.InMemoryAccountRepository;
+import RepositoriesIntf.AccountRepository;
 import RepositoriesIntf.TransactionRepository;
 
 import java.math.BigDecimal;
@@ -15,9 +16,9 @@ public class TransactionService {
     private TransactionRepository transacionRepo;
     private AccountService accountService;
 
-    public TransactionService(TransactionRepository transacionRepo){
+    public TransactionService(TransactionRepository transacionRepo, AccountRepository accountRepo){
         this.transacionRepo = transacionRepo;
-        this.accountService = new AccountService(new InMemoryAccountRepository());
+        this.accountService = new AccountService(accountRepo);
     }
 
     public void recordDeposit(Account account, BigDecimal amount){
