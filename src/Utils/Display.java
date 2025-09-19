@@ -31,7 +31,10 @@ public class Display {
         System.out.println("2. My Accounts");
         System.out.println("3. Show Account's Balance");
         System.out.println("4. Close Account");
-        System.out.println("5. Back to Main Menu");
+        System.out.println("5. Deposit Money");
+        System.out.println("6. Withdraw Money");
+        System.out.println("7. List Transactions's history of an account");
+        System.out.println("8. Transfer Money");
         System.out.println("9. Menu");
     }
 
@@ -40,6 +43,7 @@ public class Display {
         System.out.println("1. STANDARD");
         System.out.println("2. CREDIT");
         System.out.println("3. SAVINGS");
+        System.out.println("4. Cancel");
     }
 
     public static void clear(){

@@ -38,13 +38,16 @@ public class AccountService {
         System.out.println("Total : "+accounts.toArray().length);
     }
 
-    public void showAccount(String accountId){
+    public Account showAccount(String accountId){
         Account account = accountRepo.getById(accountId);
         if(account == null){
             System.out.println("Bad Account Id :-), retry!");
         } else {
             System.out.println("AccountId Number ("+account.getAccountId()+")'s SOLD is : "+account.getBalance()+"$");
+            return account;
         }
+
+        return account;
     }
 
     public void closeAccount(String accountId){
@@ -60,5 +63,39 @@ public class AccountService {
                 System.out.println("You Still have Money in Your Account");
             }
         }
+    }
+
+    public void deposit(Account account, BigDecimal amount){
+        if(amount == null || amount.compareTo(BigDecimal.ZERO) <= 0){
+            System.out.println("Invalide Amount");
+        } else {
+            account.setBalance(account.getBalance().add(amount));
+            accountRepo.save(account);
+            System.out.println("Successfully Deposited "+amount+"$ in Your Account Number ("+account.getAccountId()+")");
+        }
+    }
+
+    public void withdraw(Account account, BigDecimal amount){
+        if(amount == null || amount.compareTo(BigDecimal.ZERO) <= 0){
+            System.out.println("Invalide Amount");
+        } else if(account.getBalance().compareTo(amount) < 0){
+            System.out.println("Insufficient Funds, You have Only : "+account.getBalance()+"$");
+        } else {
+            account.setBalance(account.getBalance().subtract(amount));
+            accountRepo.save(account);
+            System.out.println("Successfully WithDraw "+amount+"$ from Your Account Number ("+account.getAccountId()+")");
+        }
+    }
+
+    public void transferOUT(Account sender, BigDecimal amount){
+        sender.setBalance(sender.getBalance().subtract(amount));
+        accountRepo.save(sender);
+        System.out.println("Successfully sent "+amount+"$ to the account you provided");
+    }
+
+    public void transferIN(Account receiver, BigDecimal amount){
+        receiver.setBalance(receiver.getBalance().add(amount));
+        accountRepo.save(receiver);
+        System.out.println("Successfully received "+amount+"$");
     }
 }

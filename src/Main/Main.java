@@ -1,13 +1,18 @@
 package Main;//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 import java.lang.ref.SoftReference;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Scanner;
 
 import Entities.Account;
 import Entities.User;
 import Repositories.InMemoryAccountRepository;
+import Repositories.InMemoryTransactionRepository;
+import RepositoriesIntf.TransactionRepository;
 import Services.AccountService;
+import Services.TransactionService;
 import Services.UserService;
 import Repositories.InMemoryUserRepository;
 import Utils.Validation;
@@ -20,6 +25,7 @@ public class Main {
         //Services
         UserService userService = new UserService(new InMemoryUserRepository());
         AccountService accountService = new AccountService(new InMemoryAccountRepository());
+        TransactionService transactService = new TransactionService(new InMemoryTransactionRepository());
 
         int choice = 100;
         Scanner input = new Scanner(System.in);
@@ -195,6 +201,11 @@ public class Main {
                                         break;
                                     }
 
+                                    case 4 : {
+                                        System.out.println("Operation Cancelled!");
+                                        break;
+                                    }
+
                                     default: {
                                         System.out.println("Default!");
                                         accountService.create(USER,Account.Type.STANDARD);
@@ -229,8 +240,69 @@ public class Main {
                                 break;
                             }
 
-                            case 9 : {
+                            case 5 : {
+                                Display.clear();
+                                accountService.userAccounts(USER);
+                                System.out.print("enter the accountId you want to deposit to : ");
+                                line = input.nextLine();
+                                Account account = accountService.showAccount(line);
+                                if(account == null){
+                                    System.out.println("Account Not Found");
+                                    break;
+                                }
+                                System.out.print("Enter amount you want to deposit : ");
+                                BigDecimal amount = input.nextBigDecimal().setScale(2, RoundingMode.HALF_DOWN);
+                                transactService.recordDeposit(account,  amount);
+                                input.nextLine();
+                                break;
+                            }
+
+                            case 6 : {
+                                Display.clear();
+                                accountService.userAccounts(USER);
+                                System.out.print("enter the accountId you want to withdraw from : ");
+                                line = input.nextLine();
+                                Account account = accountService.showAccount(line);
+                                if(account == null){
+                                    System.out.println("Account Not Found");
+                                    break;
+                                }
+                                System.out.print("Enter amount you want to withdraw : ");
+                                BigDecimal amount = input.nextBigDecimal().setScale(2, RoundingMode.HALF_DOWN);
+                                transactService.recordWithdraw(account,  amount);
+                                input.nextLine();
+                                break;
+                            }
+
+                            case 7 : {
+                                Display.clear();
+                                accountService.userAccounts(USER);
+                                System.out.print("enter the accountId you want to list its History : ");
+                                line = input.nextLine();
+                                Account account = accountService.showAccount(line);
+                                if(account == null){
+                                    System.out.println("Account Not Found");
+                                    break;
+                                }
+                                transactService.history(account);
+                                break;
+                            }
+
+                            case 8 : {
                                 Display.bankMenu();
+                                accountService.userAccounts(USER);
+                                System.out.print("enter the accountId you want to transfer  money from : ");
+                                String senderId = input.nextLine();
+                                System.out.print("enter the accountId of the receiver's account : ");
+                                String receiverId = input.nextLine();
+                                System.out.print("Enter amount you want to send : ");
+                                BigDecimal amount = input.nextBigDecimal().setScale(2, RoundingMode.HALF_DOWN);
+                                input.nextLine();
+                                transactService.recordTransfer(senderId, receiverId, amount);
+                                break;
+                            }
+
+                            case 9 : {
                                 break;
                             }
                         }

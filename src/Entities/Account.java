@@ -29,7 +29,7 @@ public class Account {
     public Account(User user, Type type){
         this.accountId = "BK-"+ random.nextInt(9000) +"-"+random.nextInt(9000);
         this.ownerUser = user;
-        this.balance = new BigDecimal(10).setScale(2, RoundingMode.HALF_DOWN);
+        this.balance = new BigDecimal(0).setScale(2, RoundingMode.HALF_DOWN);
         this.createdAt = Instant.now();
         this.active = true;
         this.type = type;
