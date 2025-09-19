@@ -1,6 +1,5 @@
-package Main;//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-import java.lang.ref.SoftReference;
+package Main;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
@@ -23,7 +22,6 @@ public class Main {
     public static User USER = null;
     public static void main(String[] args) {
 
-        //Services
         UserService userService = new UserService(new InMemoryUserRepository());
         AccountRepository accountRepo = new InMemoryAccountRepository();
         AccountService accountService = new AccountService(accountRepo);
@@ -35,12 +33,11 @@ public class Main {
         Scanner input = new Scanner(System.in);
         Display.menu();
 
-
         while(choice != 10){
             System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
             String line = input.nextLine();
             try {
-                choice = Integer.parseInt(line); // parse string to int
+                choice = Integer.parseInt(line);
             } catch (NumberFormatException e) {
                 System.out.println("That wasn't a number.");
                 continue;
@@ -111,19 +108,19 @@ public class Main {
                         System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
                         line = input.nextLine();
                         try {
-                            choice = Integer.parseInt(line); // parse string to int
+                            choice = Integer.parseInt(line);
                         } catch (NumberFormatException e) {
                             System.out.println("That wasn't a number.");
                             continue;
                         }
 
                         switch (choice){
-                            
+
                             case 1 : {
                                 System.out.println(USER);
                                 break;
                             }
-                            
+
                             case 2 : {
                                 System.out.print("Enter The New Mail : ");
                                 String email = input.nextLine();
@@ -172,19 +169,29 @@ public class Main {
                 }
 
                 case 5 : {
+                    if(!Validation.AuthCheck())
+                    {
+                        System.out.println("You're not authenticated");
+                        break;
+                    }
                     boolean running = true;
                     Display.bankMenu();
                     do{
-                    System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
+                        System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
                         line = input.nextLine();
                         try {
-                            choice = Integer.parseInt(line); // parse string to int
+                            choice = Integer.parseInt(line);
                         } catch (NumberFormatException e) {
                             System.out.println("That wasn't a number.");
                             continue;
                         }
                         switch (choice){
                             case 1 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.TypeBankMenu();
                                 System.out.print("=======================================\nChoice (enter 9 to show menu) : ");
                                 line = input.nextLine();
@@ -220,6 +227,11 @@ public class Main {
                             }
 
                             case 2 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.clear();
                                 System.out.println("=============================================");
                                 System.out.println("                    Accounts                 ");
@@ -229,6 +241,11 @@ public class Main {
                             }
 
                             case 3 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.clear();
                                 System.out.print("What is the accountId : ");
                                 String accountId = input.nextLine();
@@ -237,6 +254,11 @@ public class Main {
                             }
 
                             case 4 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.clear();
                                 System.out.print("What is the accountId You Want to Close : ");
                                 String accountId = input.nextLine();
@@ -245,6 +267,11 @@ public class Main {
                             }
 
                             case 5 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.clear();
                                 accountService.userAccounts(USER);
                                 System.out.print("enter the accountId you want to deposit to : ");
@@ -262,6 +289,11 @@ public class Main {
                             }
 
                             case 6 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.clear();
                                 accountService.userAccounts(USER);
                                 System.out.print("enter the accountId you want to withdraw from : ");
@@ -279,6 +311,11 @@ public class Main {
                             }
 
                             case 7 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.clear();
                                 accountService.userAccounts(USER);
                                 System.out.print("enter the accountId you want to list its History : ");
@@ -293,6 +330,11 @@ public class Main {
                             }
 
                             case 8 : {
+                                if(!Validation.AuthCheck())
+                                {
+                                    System.out.println("You're not authenticated");
+                                    break;
+                                }
                                 Display.bankMenu();
                                 accountService.userAccounts(USER);
                                 System.out.print("enter the accountId you want to transfer  money from : ");
